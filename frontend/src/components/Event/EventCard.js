@@ -19,7 +19,7 @@ function EventCard(props){
     const Book = () => {
         
         
-        Axios.get("https://eventhub-t514.onrender.com/eventRoute/check-user/" + user)
+        Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/check-user/" + user)
         .then((res) => {
             if(res.status === 200){
                 if(res.data != null){
@@ -50,7 +50,7 @@ function EventCard(props){
 
                         Axios.all([
                         // Updating user information and adding event
-                        Axios.put("https://eventhub-t514.onrender.com/eventRoute/update-user/" + res.data._id, userData)
+                        Axios.put("https://eventmanagement-0tom.onrender.com/eventRoute/update-user/" + res.data._id, userData)
                         .then((updateResponse) => {
                             if(updateResponse.status === 200)
                                 alert("Event Booked");
@@ -62,7 +62,7 @@ function EventCard(props){
                         
                         
                         // Updating event information by adding user and reducing slots
-                        Axios.put("https://eventhub-t514.onrender.com/eventRoute/update-event/" + _id, eventData)
+                        Axios.put("https://eventmanagement-0tom.onrender.com/eventRoute/update-event/" + _id, eventData)
                         .then((eventUpdateResponse) => {
                             if(eventUpdateResponse.status === 200)
                             {    
@@ -166,7 +166,7 @@ function EventCard(props){
     // Function to delete event
     const deleteEvent = () => {
         Axios.all([ 
-        Axios.delete("https://eventhub-t514.onrender.com/eventRoute/delete-event/" + _id)
+        Axios.delete("https://eventmanagement-0tom.onrender.com/eventRoute/delete-event/" + _id)
         .then((res) => {
             if(res.status === 200){
                 alert("Event deleted successfully");
@@ -177,7 +177,7 @@ function EventCard(props){
         })
         .catch((err) => alert(err)),
 
-        Axios.get("https://eventhub-t514.onrender.com/eventRoute/user-list")
+        Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/user-list")
         .then((userResponse) => {
             if(userResponse.status === 200){
                 // Finding users who have booked current event
@@ -186,7 +186,7 @@ function EventCard(props){
                     let userData = collectedUsers[i];
                     userData.bookedEvents = userData.bookedEvents.filter((event) => event._id !== _id);
                     
-                    Axios.put("https://eventhub-t514.onrender.com/eventRoute/update-user/" + collectedUsers[i]._id, userData)
+                    Axios.put("https://eventmanagement-0tom.onrender.com/eventRoute/update-user/" + collectedUsers[i]._id, userData)
                         .then((updateResponse) => {
                             if(updateResponse.status === 200)
                                 console.log("User details updated")

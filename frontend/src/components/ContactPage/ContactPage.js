@@ -42,7 +42,7 @@ class ContactPage extends Component {
         message: this.state.message,
       };
 
-      Axios.post("https://eventhub-t514.onrender.com/eventRoute/post-feedback", newFeedback)
+      Axios.post("https://eventmanagement-0tom.onrender.com/eventRoute/post-feedback", newFeedback)
       .then((res) => {
         if(res.status === 200)
           alert("Thank you for your feedback!");
@@ -153,3 +153,4 @@ class ContactPage extends Component {
 }
 
 export default ContactPage;
+

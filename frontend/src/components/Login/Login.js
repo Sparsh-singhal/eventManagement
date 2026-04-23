@@ -20,7 +20,7 @@ export default function Login(){
         }
 
         else{
-        Axios.get("https://eventhub-t514.onrender.com/eventRoute/check-user/" + name)
+        Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/check-user/" + name)
         .then((res) => {
             if(res.status === 200)
             {   
