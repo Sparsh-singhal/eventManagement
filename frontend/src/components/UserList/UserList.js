@@ -8,7 +8,7 @@ function UserList()
 {
     const [arr,setArr] = useState([]);
     useEffect(()=>{
-        Axios.get("https://eventhub-t514.onrender.com/eventRoute/user-list")
+        Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/user-list")
         .then((res)=>{
             if(res.status === 200)
                 setArr(res.data);
@@ -42,3 +42,4 @@ function UserList()
     )
 }
 export default UserList;
+
