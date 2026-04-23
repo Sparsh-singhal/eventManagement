@@ -1,200 +1,58 @@
-/* *{
-    margin: 0;
-    padding: 0;
-    
-} */
-
-
-
-.search{
-    width: 330px;
-    float: left;
-    margin-left: 270px;
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 4rem;
 }
 
-.srch{
-    font-family: 'Times New Roman';
-    width: 200px;
-    height: 40px;
-    background: transparent;
-    border: 1px solid #ff7200;
-    margin-top: 13px;
-    color: #fff;
-    border-right: none;
-    font-size: 16px;
-    float: left;
-    padding: 10px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
+.hero {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.btn{
-    width: 100px;
-    height: 40px;
-    background: #ff7200;
-    border: 2px solid #ff7200;
-    margin-top: 13px;
-    color: #fff;
-    font-size: 15px;
-    border-bottom-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    transition: 0.2s ease;
-    cursor: pointer;
-}
-.btn:hover{
-    color: #000;
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
 }
 
-.btn:focus{
-    outline: none;
-}
-
-.srch:focus{
-    outline: none;
-}
-
-.content{
-    width: 1200px;
-    height: auto;
-    margin: auto;
-    color: #fff;
+.highlight {
+    color: var(--accent);
     position: relative;
+    display: inline-block;
 }
 
-.content .par{
-    padding-left: 20px;
-    padding-bottom: 25px;
-    font-family: Arial;
-    letter-spacing: 1.2px;
-    line-height: 30px;
-}
-
-.content h1{
-    font-family: 'Roboto Slab';
-    font-size: 50px;
-    padding-left: 20px;
-    margin-top: 8%;
-    letter-spacing: 2px;
-    color: #ff7200;
-}
-
-.tagline{
-    font-size: 22px;
-    padding-left: 20px;
-    color: rgb(243, 243, 114);
-}
-
-.about{
-    font-family: 'Nunito';
-    font-size: 20px;
-    padding-left: 20px;
-    letter-spacing: 2px;
-    padding-bottom: 25px;
-    margin-right: 35%;
-    line-height: 30px;
-    color: #fff;
-}
-
-.content span{
-    color: #ff7200;
-    font-size: 65px
-}
-
-.form{
-    width: 250px;
-    height: 380px;
-    background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
+.highlight::after {
+    content: '';
     position: absolute;
-    top: -20px;
-    left: 870px;
-    transform: translate(0%,-5%);
-    border-radius: 10px;
-    padding: 25px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: rgba(139, 92, 246, 0.2);
+    z-index: -1;
+    border-radius: 4px;
 }
 
-.form h2{
-    width: 220px;
-    font-family: sans-serif;
-    text-align: center;
-    color: #ff7200;
-    font-size: 22px;
-    background-color: #fff;
-    border-radius: 10px;
-    margin: 2px;
-    padding: 8px;
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--muted-foreground);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.form input{
-    width: 240px;
-    height: 35px;
-    background: transparent;
-    border-bottom: 1px solid #ff7200;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    color: #fff;
-    font-size: 15px;
-    letter-spacing: 1px;
-    margin-top: 30px;
-    font-family: sans-serif;
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
-.form input:focus{
-    outline: none;
-}
-
-::placeholder{
-    color: #fff;
-    font-family: Arial;
-}
-
-.btnn{
-    width: 240px;
-    height: 40px;
-    background: #ff7200;
-    border: none;
-    margin-top: 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: #fff;
-    transition: 0.4s ease;
-}
-.btnn:hover{
-    background: #fff;
-    color: #ff7200;
-}
-.btnn a{
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
-}
-.form .link{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 17px;
-    padding-top: 20px;
-    text-align: center;
-}
-.form .link a{
-    text-decoration: none;
-    color: #ff7200;
-}
-.liw{
-    padding-top: 15px;
-    padding-bottom: 10px;
-    text-align: center;
-}
-.icons a{
-    text-decoration: none;
-    color: #fff;
-}
-.icons ion-icon{
-    color: #fff;
-    font-size: 30px;
-    padding-left: 14px;
-    padding-top: 5px;
-    transition: 0.3s ease;
-}
-.icons ion-icon:hover{
-    color: #ff7200;
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
 }

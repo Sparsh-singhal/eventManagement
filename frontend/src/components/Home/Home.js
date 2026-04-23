@@ -1,58 +1,25 @@
-import { useState, useEffect } from "react";
-
-import Login from "../Login/Login";
+import { Link } from 'react-router-dom';
+import { FaArrowRight } from 'react-icons/fa';
 import './Home.css';
 
-export default function Home(props){  
-    // localStorage.clear();
-    const [isLoggedIn, setLoggedIn] = useState("false");
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const loginStatus = localStorage.getItem("loginStatus");
-            setLoggedIn(loginStatus);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
-
-    if (!isLoggedIn || isLoggedIn === "false"){
-        return(
-            <div class="content">
-                <div>
-                <h1>Eventify</h1>
-                    <p className="tagline">
-                        <em> ‘ Simplify ’ your Events </em>
+export default function Home() {
+    return (
+        <div className="home-container">
+            <section className="hero">
+                <div className="hero-content">
+                    <h1 className="hero-title">
+                        ‘ Simplify ’ your <span className="highlight">Events</span>
+                    </h1>
+                    <p className="hero-subtitle">
+                        Explore the magic of EVENTIFY. A go-to solution for managing amazing events effortlessly. From easy sign-ups to managing event schedules, our platform has everything you need.
                     </p>
-                    <p className="about">
-                    Explore the magic of our application 'EVENTIFY'.
-                    A go-to solution for managing amazing events effortlessly. From easy sign-ups to registering and managing event schedules, our user-friendly platform has everything you need for a flawless experience. 
-                    With powerful features, trust our system to handle the details, and let's bring your event vision to life!!!
-                    </p>
+                    <div className="hero-actions">
+                        <Link to="/events" className="btn btn-primary btn-lg">
+                            Explore Events <FaArrowRight />
+                        </Link>
+                    </div>
                 </div>
-                
-                <Login/>
-            </div>
-        )
-
-    }
-
-    else{
-        return(
-            <div class = "content">
-                <div>
-                <h1>Eventify</h1>
-                    <p className="tagline">
-                        <em> ‘ Simplify ’ your Events </em>
-                    </p>
-                    <p className="about">
-                    Explore the magic of our application 'EVENTIFY'.
-                    A go-to solution for managing amazing events effortlessly. From easy sign-ups to registering and managing event schedules, our user-friendly platform has everything you need for a flawless experience. 
-                    With powerful features, trust our system to handle the details, and let's bring your event vision to life!!!
-                    </p>
-                </div>
-            </div>
-            
-        )
-    }
-    
+            </section>
+        </div>
+    );
 }

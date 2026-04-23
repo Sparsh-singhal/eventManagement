@@ -1,36 +1,66 @@
-import { useEffect, useState} from "react";
-import Axios from "axios";
+import { useEffect, useState } from "react";
+import api from "../../api/axiosConfig";
 import EventCard from './EventCard';
+import './Events.css';
 
 const EventList = () => {
-  const [arr, setArr] = useState([])
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('All');
+
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get('/event-list', { params: { search, category } });
+      setEvents(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/event-list")
-    .then((res) => {
-      if(res.status === 200)
-        setArr(res.data);
-        // console.log(arr);}
-      else
-        Promise.reject();
-    })
-    .catch((err) => alert(err));
-  })
-  
-  const EventListItems  = () => {
-    return arr.map((val, index) => {
-      const slotsLeft = `Slots Left: ${val.slots}`;
-      return <EventCard obj = {val} action = "book" slotsLeft = {slotsLeft} />
-    })
-  }
+    fetchEvents();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, category]);
+
   return (
-    <div>
-      <div fluid className='cardContainer'>
-            {EventListItems()}
+    <div className="event-list-container">
+      <div className="event-filters">
+        <input 
+          type="text" 
+          placeholder="Search events..." 
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="search-input"
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-select">
+          <option value="All">All Categories</option>
+          <option value="Tech">Tech</option>
+          <option value="Music">Music</option>
+          <option value="Art">Art</option>
+          <option value="Business">Business</option>
+          <option value="General">General</option>
+        </select>
       </div>
+
+      {loading ? (
+        <div className="loading-grid">
+          {[1,2,3,4,5,6].map(n => <div key={n} className="card skeleton-card"></div>)}
+        </div>
+      ) : events.length === 0 ? (
+        <div className="empty-state">No events found. Try adjusting your filters.</div>
+      ) : (
+        <div className="events-grid">
+          {events.map((event) => (
+            <EventCard key={event._id} obj={event} onUpdate={fetchEvents} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 export default EventList;
-
