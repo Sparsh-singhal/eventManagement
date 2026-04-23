@@ -11,16 +11,21 @@ export default function Dashboard() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedTicket, setSelectedTicket] = useState(null);
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
+                // Fetch notifications
+                const notifRes = await api.get('/notifications');
+                setNotifications(notifRes.data);
+
                 if (user.role === 'admin' || user.role === 'organizer') {
                     const statsRes = await api.get('/dashboard-stats');
                     setStats(statsRes.data);
                     
                     const eventsRes = await api.get('/event-list');
-                    setEvents(eventsRes.data.filter(e => e.organizerId?._id === user.id || user.role === 'admin'));
+                    setEvents(eventsRes.data.events.filter(e => e.organizerId?._id === user.id || user.role === 'admin'));
                 } else {
                     const userRes = await api.get(`/check-user/${user.username}`);
                     setEvents(userRes.data.bookedEvents || []);
@@ -33,6 +38,15 @@ export default function Dashboard() {
         };
         fetchDashboardData();
     }, [user]);
+
+    const markNotificationsRead = async () => {
+        try {
+            await api.put('/notifications/mark-read');
+            setNotifications(prev => prev.map(n => ({...n, readStatus: true})));
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     if (loading) return <div className="loading-grid"><div className="skeleton-card"></div></div>;
 
@@ -56,6 +70,24 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
+
+            <div className="dashboard-section" style={{marginBottom: '2rem'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <h2>Notifications</h2>
+                    {notifications.some(n => !n.readStatus) && (
+                        <button className="btn btn-secondary" onClick={markNotificationsRead}>Mark All Read</button>
+                    )}
+                </div>
+                <div style={{marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                    {notifications.map(notif => (
+                        <div key={notif._id} style={{padding: '1rem', background: notif.readStatus ? 'transparent' : 'var(--background)', border: '1px solid var(--border)', borderRadius: 'var(--radius)'}}>
+                            <p style={{fontWeight: notif.readStatus ? '400' : '600'}}>{notif.message}</p>
+                            <span className="text-muted" style={{fontSize: '0.75rem'}}>{new Date(notif.createdAt).toLocaleString()}</span>
+                        </div>
+                    ))}
+                    {notifications.length === 0 && <p className="text-muted">No new notifications.</p>}
+                </div>
+            </div>
 
             <div className="dashboard-section">
                 <h2>{(!user.role || user.role === 'attendee') ? 'My Tickets' : 'Manage Events'}</h2>

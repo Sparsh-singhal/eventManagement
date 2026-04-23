@@ -16,31 +16,19 @@ export default function EventCard({ obj, onUpdate }) {
             toast.error("Please login to register");
             return;
         }
-        if (slots === 0) {
-            toast.error("Event is full!");
-            return;
-        }
         
         try {
-            toast.info("Registration initiated...");
+            toast.info("Processing registration...");
+            const res = await api.post(`/register-event/${_id}`);
             
-            const userData = await api.get(`/check-user/${user.username}`);
-            let updatedUser = userData.data;
-            updatedUser.bookedEvents = [...updatedUser.bookedEvents, obj];
-            
-            let updatedEvent = { ...obj };
-            updatedEvent.slots -= 1;
-            updatedEvent.registeredUsers = [...updatedEvent.registeredUsers, { username: user.username, fullName: user.fullName }];
-            
-            await Promise.all([
-                api.put(`/update-user/${user.id}`, updatedUser),
-                api.put(`/update-event/${_id}`, updatedEvent)
-            ]);
-            
-            toast.success("Successfully registered!");
+            if (res.data.waitlisted) {
+                toast.warning(res.data.message); // Yellow toast for waitlist
+            } else {
+                toast.success(res.data.message);
+            }
             if(onUpdate) onUpdate();
         } catch (err) {
-            toast.error("Failed to register");
+            toast.error(err.response?.data?.error || "Failed to register");
         }
     };
 
