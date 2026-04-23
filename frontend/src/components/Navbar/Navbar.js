@@ -10,11 +10,12 @@ export default function Navbar(props){
     const [user, setUser] = useState();
 
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
             const user = localStorage.getItem("user");
             setUser(user);
-        }, [])
-    }, 5000)
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
     
     const logout = () => {
         localStorage.setItem("loginStatus", false);
@@ -25,7 +26,7 @@ export default function Navbar(props){
         return(
             <nav class="navbar navbar-expand-lg">
                 <div class = "container-fluid box">
-                <img className = "logo" src = {Logo}></img>
+                <img className = "logo" src = {Logo} alt="Logo"></img>
                 <div class="menu">
                     <ul>
                     <li><Link to = "/">Home</Link></li>
@@ -53,7 +54,7 @@ export default function Navbar(props){
         return(
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid box"> 
-                <img className = "logo" src = {Logo}></img>
+                <img className = "logo" src = {Logo} alt="Logo"></img>
                 <div class="menu">
                     <ul>
                     <li><Link to = "/">Home</Link></li>
@@ -81,7 +82,7 @@ export default function Navbar(props){
         return(
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid box">
-                <img className = "logo" src = {Logo}></img>
+                <img className = "logo" src = {Logo} alt="Logo"></img>
                 <div class="menu">
                     <ul>
                     <li><Link to = "/">Home</Link></li>

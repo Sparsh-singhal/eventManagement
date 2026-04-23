@@ -19,7 +19,7 @@ const EventList = () => {
   
   const EventListItems  = () => {
     return arr.map((val, index) => {
-      const slotsLeft = "Slots Left: " + `${val.slots}`;
+      const slotsLeft = `Slots Left: ${val.slots}`;
       return <EventCard obj = {val} action = "book" slotsLeft = {slotsLeft} />
     })
   }

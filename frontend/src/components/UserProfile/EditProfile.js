@@ -20,7 +20,6 @@ function UserUpdateForm() {
     const user = localStorage.getItem('user');
     Axios.get("https://eventhub-t514.onrender.com/eventRoute/check-user/" + user)
       .then(response => {
-        {
           setFormData(
             {
    
@@ -34,11 +33,11 @@ function UserUpdateForm() {
           );
           setBookedEventsValue(response.data.bookedEvents);
           console.log("From profile page:",formData, bookedEventsValue);
-        } 
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.usernameValue, formData.fullNameValue, formData.emailValue, formData.phoneValue, formData.passwordValue]); 
 
 

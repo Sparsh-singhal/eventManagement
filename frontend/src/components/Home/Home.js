@@ -8,11 +8,12 @@ export default function Home(props){
     const [isLoggedIn, setLoggedIn] = useState("false");
 
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
             const loginStatus = localStorage.getItem("loginStatus");
             setLoggedIn(loginStatus);
-        }, [])
-    }, 5000)
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     if (!isLoggedIn || isLoggedIn === "false"){
         return(

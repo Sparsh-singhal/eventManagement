@@ -33,6 +33,7 @@ const RegistrationForm = (props) => {
       setTitle("Edit Profile");
       setButtonTitle("Update");
     }  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.usernameValue, props.fullNameValue, props.emailValue, props.phoneValue, props.passwordValue])
   const [errors, setErrors] = useState({});
 

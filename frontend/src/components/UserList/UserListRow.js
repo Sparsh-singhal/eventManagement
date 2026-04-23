@@ -1,8 +1,7 @@
 import Axios from "axios";
-import { Link } from "react-router-dom";
 
 function UserListRow(props) {
-    const { _id, username, fullName, email, phone, password, bookedEvents} = props.obj; //Object destruction
+    const { _id, username, fullName, email, phone} = props.obj; //Object destruction
 
     const handleClick = () => {
         Axios.all([

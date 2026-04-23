@@ -20,7 +20,6 @@ function UpdateEvent() {
     const eventID = localStorage.getItem("eventID");
     Axios.get("https://eventhub-t514.onrender.com/eventRoute/check-event/" + eventID)
       .then(response => {
-        {
             // console.log(response.data);
           setFormData(
             {
@@ -39,11 +38,11 @@ function UpdateEvent() {
           );
           setRegisteredUsersValue(response.data.registeredUsers);
           console.log("From event page:",formData, registeredUsersValue);
-        } 
       })
       .catch(error => {
         console.error('Error fetching event details:', error);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.nameValue, formData.startTimeValue, formData.endTimeValue,
         formData.dateValue, formData.placeValue, formData.descriptionValue,
         formData.clubValue, formData.slotsValue]); 

@@ -24,9 +24,9 @@ export default function Footer(){
             <Row>
                 <Col md = "12" className="footer-body">
                     <div>
-                        <a href = "#" target = "_blank" className="footer-icons"><FaLinkedin/></a>
-                        <a href = "#" target = "_blank" className="footer-icons"><FaTwitter/></a>
-                        <a href = "#" target = "_blank" className="footer-icons"><FaInstagram/></a>
+                        <a href = "#!" className="footer-icons"><FaLinkedin/></a>
+                        <a href = "#!" className="footer-icons"><FaTwitter/></a>
+                        <a href = "#!" className="footer-icons"><FaInstagram/></a>
                     </div>
                 </Col>
             </Row>

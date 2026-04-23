@@ -32,6 +32,7 @@ const EventRegistrationForm = (props) => {
       setTitle("Event Updation Form");
       setButtonTitle("Update");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.nameValue, props.startTimeValue, props.endTimeValue, 
     props.dateValue, props.descriptionValue, props.clubValue, props.slotsValue])
 
@@ -85,7 +86,7 @@ const EventRegistrationForm = (props) => {
           club : `${formData.club}`,
           slots : `${formData.slots}`,
         }
-        eventData.registeredUsers = eventData.registeredUsers;
+        
         console.log("From updation page:",eventData);
         Axios.all([
             Axios.put("https://eventhub-t514.onrender.com/eventRoute/update-event/" + props.id, eventData)
