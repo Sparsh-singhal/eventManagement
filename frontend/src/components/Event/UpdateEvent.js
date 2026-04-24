@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import { useParams } from "react-router-dom";
+import api from "../../api/axiosConfig";
 import EventRegistrationForm from "./eventform";
 
 function UpdateEvent() {
+    const { id } = useParams();
     const [formData, setFormData] = useState({
         nameValue: "",
         startValue: "",
@@ -17,8 +19,8 @@ function UpdateEvent() {
   const [registeredUsersValue, setRegisteredUsersValue] = useState();
 
   useEffect(() => {
-    const eventID = localStorage.getItem("eventID");
-    Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/check-event/" + eventID)
+    if(!id) return;
+    api.get("/check-event/" + id)
       .then(response => {
             // console.log(response.data);
           setFormData(
@@ -59,7 +61,7 @@ function UpdateEvent() {
     clubValue = {formData.clubValue}
     slotsValue = {formData.slotsValue}
     action = "update"
-    id = {localStorage.getItem("eventID")}
+    id = {id}
     registeredUsersValue = {registeredUsersValue}
     />
     )

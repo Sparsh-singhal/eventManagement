@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import api from '../../api/axiosConfig';
 import { QRCodeSVG } from 'qrcode.react';
@@ -12,6 +13,7 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [notifications, setNotifications] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -45,6 +47,17 @@ export default function Dashboard() {
             setNotifications(prev => prev.map(n => ({...n, readStatus: true})));
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const handleDeleteEvent = async (eventId) => {
+        if (!window.confirm("Are you sure you want to delete this event? This action cannot be undone.")) return;
+        try {
+            await api.delete(`/delete-event/${eventId}`);
+            setEvents(events.filter(e => e._id !== eventId));
+            toast.success("Event deleted successfully");
+        } catch (err) {
+            toast.error(err.response?.data?.error || "Failed to delete event");
         }
     };
 
@@ -90,20 +103,37 @@ export default function Dashboard() {
             </div>
 
             <div className="dashboard-section">
-                <h2>{(!user.role || user.role === 'attendee') ? 'My Tickets' : 'Manage Events'}</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2>{(!user.role || user.role === 'attendee') ? 'My Tickets' : 'Manage Events'}</h2>
+                    {(user.role === 'admin' || user.role === 'organizer') && (
+                        <button className="btn btn-primary" onClick={() => navigate('/create-event')}>
+                            + Create New Event
+                        </button>
+                    )}
+                </div>
                 <div className="events-grid" style={{marginTop: '1.5rem'}}>
                     {events.map(event => (
                         <div key={event._id} className="card dashboard-event-card">
                             <div style={{padding: '1.5rem'}}>
                                 <h3>{event.name}</h3>
                                 <p className="text-muted">{new Date(event.date).toLocaleDateString()}</p>
-                                <div style={{marginTop: '1rem'}}>
+                                <div style={{marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                     {(!user.role || user.role === 'attendee') ? (
                                         <button className="btn btn-primary" onClick={() => setSelectedTicket(event)}>
                                             View Ticket (QR)
                                         </button>
                                     ) : (
-                                        <span className={`badge badge-${event.status}`}>{event.status}</span>
+                                        <>
+                                            <span className={`badge badge-${event.status}`}>{event.status}</span>
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <button className="btn btn-secondary" onClick={() => navigate(`/update-event/${event._id}`)}>
+                                                    Edit
+                                                </button>
+                                                <button className="btn" style={{ background: '#e74c3c', color: 'white' }} onClick={() => handleDeleteEvent(event._id)}>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </>
                                     )}
                                 </div>
                             </div>

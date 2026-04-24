@@ -1,8 +1,11 @@
-import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../../api/axiosConfig';
 import './eventform.css';
 
 const EventRegistrationForm = (props) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: `${props.nameValue}`,
     startTime: `${props.startTimeValue}`,
@@ -61,17 +64,17 @@ const EventRegistrationForm = (props) => {
     }
 
     if (props.action === "create"){
-      Axios.post("https://eventmanagement-0tom.onrender.com/eventRoute/create-event", formData)
+      api.post("/create-event", formData)
       .then((res) => {
         if(res.status === 200)
         {
-            alert("Event created successfully");
-            window.location.reload();
+            toast.success("Event created successfully");
+            navigate('/dashboard');
         }
         else
           Promise.reject();
       })
-      .catch((err) => alert(err));
+      .catch((err) => toast.error(err.response?.data?.error || "Failed to create event"));
       // console.log(formData);
     }
 
@@ -88,50 +91,16 @@ const EventRegistrationForm = (props) => {
         }
         
         console.log("From updation page:",eventData);
-        Axios.all([
-            Axios.put("https://eventmanagement-0tom.onrender.com/eventRoute/update-event/" + props.id, eventData)
-                .then((updateResponce) => {
-                    if (updateResponce.status === 200) {
-                        alert("Event updated successfully");
-   
-                    } else {
-                        Promise.reject();
-                    }
-                })
-                .catch((updateErr) => alert(updateErr)),
-    
-            // To get the list of users
-            Axios.get("https://eventmanagement-0tom.onrender.com/eventRoute/user-list")
-                .then((userResponse) => {
-                    if (userResponse.status === 200) {
-                        // Finding users who have booked the current event
-                        const collectedUsers = userResponse.data;
-                        for (let i = 0; i < collectedUsers.length; i++) {
-                            let userData = collectedUsers[i];
-                            userData.bookedEvents = userData.bookedEvents.map((event) => {
-                                if (event._id === props.id) {
-                                    return {_id: props.id, name: eventData.name, date: eventData.date, 
-                                      place: eventData.place, club: eventData.club, description: eventData.description, 
-                                      startTime: eventData.startTime, endTime: eventData.endTime}; // Update with the modified event data
-                                }
-                                return event;
-                            });
-    
-                            // Updating the user details
-                            Axios.put("https://eventmanagement-0tom.onrender.com/eventRoute/update-user/" + collectedUsers[i]._id, userData)
-                                .then((userUpdateResponse) => {
-                                    if (userUpdateResponse.status === 200) {
-                                        console.log("User details updated");
-                                    } else {
-                                        Promise.reject();
-                                    }
-                                })
-                                .catch((userUpdateError) => alert(userUpdateError));
-                        }
-                    }
-                })
-                .catch((userError) => alert(userError)),
-        ]);
+        api.put("/update-event/" + props.id, eventData)
+            .then((updateResponce) => {
+                if (updateResponce.status === 200) {
+                    toast.success("Event updated successfully");
+                    navigate('/dashboard');
+                } else {
+                    Promise.reject();
+                }
+            })
+            .catch((updateErr) => toast.error(updateErr.response?.data?.error || "Failed to update event"));
     }
 
     

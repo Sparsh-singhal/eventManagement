@@ -6,6 +6,8 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import EventList from './components/Event/EventList';
 import Dashboard from './components/Dashboard/Dashboard';
+import CreateEvent from './components/Event/CreateEvent';
+import UpdateEvent from './components/Event/UpdateEvent';
 
 import './App.css'; // Keep if any old styles remain, else we will delete it
 
@@ -33,6 +35,16 @@ function App() {
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/create-event" element={
+              <ProtectedRoute roles={['admin', 'organizer']}>
+                <CreateEvent />
+              </ProtectedRoute>
+            } />
+            <Route path="/update-event/:id" element={
+              <ProtectedRoute roles={['admin', 'organizer']}>
+                <UpdateEvent />
               </ProtectedRoute>
             } />
             <Route path="*" element={<Navigate to="/" />} />
