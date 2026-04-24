@@ -7,7 +7,7 @@ export default function AuthModal({ isOpen, onClose }) {
   const [isLogin, setIsLogin] = useState(true);
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
-    username: '', password: '', email: '', fullName: '', phone: ''
+    username: '', password: '', email: '', fullName: '', phone: '', role: 'attendee'
   });
 
   if (!isOpen) return null;
@@ -49,6 +49,13 @@ export default function AuthModal({ isOpen, onClose }) {
                 <div className="form-group">
                   <label>Phone</label>
                   <input name="phone" required onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                  <label>Role</label>
+                  <select name="role" value={formData.role} onChange={handleChange} style={{ padding: '0.75rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--foreground)' }}>
+                    <option value="attendee">Attendee (Buy Tickets)</option>
+                    <option value="organizer">Organizer (Create Events)</option>
+                  </select>
                 </div>
               </>
             )}
